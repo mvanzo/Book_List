@@ -97,6 +97,9 @@ document.querySelector('#book-form').addEventListener('submit', (e)=> {
     
         // add book to UI
         UI.addBookToList(book)
+
+        // show success message
+        UI.showAlert('Book Added', 'success')
     
         // Clear Fields
         UI.clearFields()
