@@ -10,20 +10,7 @@ class Book {
 // UI Class : Handle UI tasks
 class UI {
     static displayBooks() {
-        // pretend like this is something held in local storage
-        const StoredBooks = [
-            {
-                title: 'Book One',
-                author: 'John Doe',
-                isbn: '3212332'
-            },
-            {
-                title: 'Book Two',
-                author: 'Jane Doe',
-                isbn: '3219482'
-            }
-        ]
-        const books = StoredBooks
+        const books = Store.getBooks()
 
         books.forEach((book)=> UI.addBookToList(book))
 
@@ -75,6 +62,34 @@ class UI {
 }
 
 // Store Class : Handles Storage
+class Store {
+    static getBooks() {
+        let books
+        if (localStorage.getItem('books') ===  null) {
+            books = []
+        } else {
+            books = JSON.parse(localStorage.getItem('books'))
+        }
+
+        return books
+    }
+
+    static addBook(book) {
+        const books = Store.getBooks()
+        books.push(book)
+        localStorage.setItem('books', JSON.stringify(books))
+    }
+
+    static removeBook(isbn) {
+        const books = Store.getBooks()
+        books.forEach((book, index) => {
+            if(book.isbn === isbn) {
+                books.splice(index, 1)
+            }
+        })
+        localStorage.setItem('books', JSON.stringify(books))
+    }
+}
 
 // Event : display books
 document.addEventListener('DOMContentLoaded', UI.displayBooks)
@@ -111,4 +126,5 @@ document.querySelector('#book-form').addEventListener('submit', (e)=> {
 document.querySelector('#book-list').addEventListener('click', e=> {
     e.preventDefault()
     UI.deleteBook(e.target)
+    UI.showAlert('Book Removed', 'info')
 })
