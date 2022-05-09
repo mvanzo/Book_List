@@ -132,6 +132,5 @@ document.querySelector('#book-list').addEventListener('click', e=> {
     UI.deleteBook(e.target)
     // remove book from local storage (store)
     Store.removeBook(e.target.parentElement.previousElementSibling.textContent)
-    console.log(e.target.parentElement.previousElementSibling.textContent)
     UI.showAlert('Book Removed', 'info')
 })
